@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>5期生スケジュール | Weekly Oshi Calendar</title>
+  <style>
+    body {
+      font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+      background: #fdf9f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #ff77aa;
+      color: #fff;
+      text-align: center;
+      padding: 1.5rem 1rem 1rem 1rem;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(255,119,170,0.08);
+      margin-bottom: 2rem;
+    }
+    th, td {
+      text-align: center;
+      padding: 1.1em 0.6em;
+      border: 1px solid #f2c9d6;
+      min-width: 90px;
+      font-size: 1rem;
+      transition: background 0.15s;
+    }
+    th {
+      background: #ffe5ef;
+      color: #d24074;
+      font-weight: bold;
+      font-size: 1.1em;
+      border-bottom: 2px solid #ff77aa;
+      letter-spacing: 1px;
+    }
+    .oshi-row {
+      font-weight: bold;
+      color: #fff;
+    }
+    .green    { background: #4caf50; }
+    .blue     { background: #2196f3; }
+    .white    { background: #eaeaea; color: #444; }
+    .aqua     { background: #00bcd4; }
+    .yellow   { background: #ffc107; color: #444; }
+    .red      { background: #f44336; }
+    td:not(.oshi-row) {
+      background: #fff9fb;
+      color: #333;
+      font-weight: normal;
+    }
+    @media (max-width: 800px) {
+      table, thead, tbody, th, td, tr {
+        font-size: 0.90em;
+      }
+      th, td {
+        min-width: 60px;
+        padding: 0.6em 0.2em;
+      }
+    }
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .link-button {
+      display: inline-block;
+      color: white;
+      padding: 0.8rem 1.2rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: filter 0.2s ease;
+      margin-bottom: 0.5em;
+    }
+    .link-button.green  { background: #4caf50; }
+    .link-button.blue   { background: #2196f3; }
+    .link-button.white  { background: #ccc; color: #333; }
+    .link-button.aqua   { background: #00bcd4; }
+    .link-button.yellow { background: #ffc107; color: #333; }
+    .link-button.red    { background: #f44336; }
+    .link-button:hover  { filter: brightness(1.15); }
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 3rem;
+      padding-bottom: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>今週のスケジュール ✨</h1>
+  </header>
+
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th>推し</th>
+          <th>月</th>
+          <th>火</th>
+          <th>水</th>
+          <th>木</th>
+          <th>金</th>
+          <th>土</th>
+          <th>日</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="oshi-row green">緑森アトリ</td>
+          <td></td>
+          <td>22:00 雑談</td>
+          <td>22:00 雑談</td>
+          <td>23:00 メン限ASMR</td>
+          <td>ゲリラの可能性</td>
+          <td></td>
+          <td>作業メン限 22:00 歌枠</td>
+        </tr>
+        <tr>
+          <td class="oshi-row blue">雫川なのか</td>
+          <td></td>
+          <td></td>
+          <td>18:00 作業雑談</td>
+          <td>21:00 コラボ</td>
+          <td>元気次第</td>
+          <td>未定</td>
+          <td>未定</td>
+        </tr>
+        <tr>
+          <td class="oshi-row white">白熊汰べる</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="oshi-row aqua">もふやまそらら</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="oshi-row yellow">ちゃまこ</td>
+          <td></td>
+          <td>22:30 なんかある</td>
+          <td>20:30 なんかある</td>
+          <td>未定</td>
+          <td>未定</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="oshi-row red">卯夢月めお</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="button-group">
+      <a href="https://youtube.com/@suimoriatori?si=r4LcQ6hV6BfxmD6z" target="_blank" class="link-button green">緑森アトリ</a>
+      <a href="https://youtube.com/@nanokach?si=JPaHVGb5rw2gXJbH" target="_blank" class="link-button blue">雫川なのか</a>
+      <a href="https://youtube.com/@shirokumataberu?si=8jSSwmquzEEgH4gu" target="_blank" class="link-button white">白熊汰べる</a>
+      <a href="https://youtube.com/@mofuyamasoraravt?si=hLWqQs-yIjvb47YU" target="_blank" class="link-button aqua">もふやまそらら</a>
+      <a href="https://youtube.com/@chamakovt?si=FhphlKthBEKF2HBf" target="_blank" class="link-button yellow">ちゃまこ</a>
+      <a href="https://youtube.com/@uyuzukimeo?si=cBWPK0Ni0VQIP4MA" target="_blank" class="link-button red">卯夢月めお</a>
+    </div>
+
+    <footer>
+      すけたす
+    </footer>
+  </div>
+</body>
+</html>
