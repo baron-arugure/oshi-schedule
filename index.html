@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>5期生スケジュール | Weekly Oshi Calendar</title>
+  <title>5期生スケジュール | Weekly 5th Calendar</title>
 
 </head>
 
@@ -158,23 +158,6 @@
       justify-content: space-around;
       gap: 2rem;
     }
-    .tweet-box {
-      flex: 1 1 330px;
-      min-width: 310px;
-      max-width: 370px;
-      background: #f6f9fa;
-      border-radius: 16px;
-      padding: 1rem;
-      margin: 0.5rem;
-      box-shadow: 0 2px 8px rgba(33,150,243,0.05);
-      text-align: center;
-    }
-    .tweet-box h2 {
-      margin: 0 0 0.5em 0;
-      font-size: 1.2em;
-      color: #555;
-      font-weight: bold;
-    }
 
     footer {
       text-align: center;
@@ -188,11 +171,43 @@
   margin-bottom: 2.5rem;
 }
 
+.tweet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.tweet-card {
+  background: #1a1a1a; /* 黒背景 */
+  color: #ffffff;       /* 本文白 */
+  border-radius: 1.5rem;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  padding: 1rem;
+  text-align: center;
+  font-weight: bold;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tweet-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 16px rgba(0,0,0,0.3);
+}
+
+.tweet-card a {
+  color: #ffffff;         /* 白文字 */
+  text-decoration: underline;
+}
+
+.tweet-card a:hover {
+  color: #1d9bf0;         /* Xブルー */
+  text-decoration: underline;
+}
+
   </style>
 </head>
 <body>
   <header>
-    <h1>🗓️ 5期生スケジュール | Weekly Oshi Calendar</h1>
+    <h1>🗓️ 5期生スケジュール | Weekly 5th Calendar</h1>
   </header>
   <div class="container">
     <h2>📆 今週の推し配信予定</h2>
@@ -247,8 +262,8 @@
   <a href="https://youtube.com/@uyuzukimeo" target="_blank" class="link-button red">卯夢月めお</a>
 </div>
 
-<section class="twitter-section">
-  <div class="tweet-box">
+<section class="tweet-grid">
+  <div class="tweet-card">
     <a class="twitter-timeline"
        data-height="500"
        data-theme="light"
@@ -256,7 +271,7 @@
        Tweets by @suimoriatori
     </a>
   </div>
-  <div class="tweet-box">
+  <div class="tweet-card">
     <a class="twitter-timeline"
        data-height="500"
        data-theme="light"
@@ -264,7 +279,7 @@
        Tweets by @ShizukawaNanoka
     </a>
   </div>
-  <div class="tweet-box">
+  <div class="tweet-card">
     <a class="twitter-timeline"
        data-height="500"
        data-theme="light"
@@ -272,7 +287,7 @@
        Tweets by @beruVT
     </a>
   </div>
-  <div class="tweet-box">
+  <div class="tweet-card">
     <a class="twitter-timeline"
        data-height="500"
        data-theme="light"
@@ -280,7 +295,7 @@
        Tweets by @mofuyamasorara
     </a>
   </div>
-  <div class="tweet-box">
+  <div class="tweet-card">
     <a class="twitter-timeline"
        data-height="500"
        data-theme="light"
@@ -288,7 +303,7 @@
        Tweets by @chamakoVT
     </a>
   </div>
-  <div class="tweet-box">
+  <div class="tweet-card">
     <a class="twitter-timeline"
        data-height="500"
        data-theme="light"
