@@ -14,6 +14,32 @@
   gtag('config', 'G-34F62VYWT7');
 </script>
 
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-34F62VYWT7');
+  window.onload = function(){
+    fetch("https://script.google.com/macros/s/AKfycbyC_efPMSDoPsrvDlXnVuglZkVR1FkbH3PMR617ZyKHiGOXnBuVxA54KdQYssA_QuisDg/exec")
+    .then(response => response.json())
+    .then(data => {
+      console.log("取得したデータ:", data);
+      const menbers = ["sui","sizu","siro","mohu","cha","uyu"]
+      const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+      for(let menber = 0;menber < menbers.length;menber++){
+        for(let day = 0;day<7;day++){
+          console.log(menber,day,data[menber][days[day]])
+          let tergetCell = document.getElementById(menbers[menber]+days[day])
+          tergetCell.innerText = data[menber][days[day]]
+        }
+      }
+    })
+    .catch(error => {
+      console.error("エラー:", error);
+    });
+  }
+</script>
+
 </head>
 
   <style>
@@ -304,30 +330,6 @@
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <script>
-const SHEET_ID = "1AbCDefGhIJkLmNoPQrstUVWXYZ1234567890"; // ← ここを自分のIDに置き換えてください
-const SHEET_NAME = "シート1"; // または Sheet1
-
-fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`)
-  .then(res => res.text())
-  .then(text => {
-    const json = JSON.parse(text.substr(47).slice(0, -2));
-    const rows = json.table.rows;
-
-    const table = document.querySelector("table tbody");
-    if (!table) return;
-
-    [...table.rows].forEach((tr, rowIdx) => {
-      if (!rows[rowIdx]) return;
-      const cells = rows[rowIdx].c;
-
-      for (let col = 1; col < cells.length; col++) {
-        const cellValue = cells[col]?.v || "";
-        const td = tr.cells[col];
-        td.innerHTML = parseContent(cellValue);
-      }
-    });
-  });
-
 function parseContent(content) {
   if (!content) return "";
   const rules = [
