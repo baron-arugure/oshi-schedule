@@ -5,41 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>5期生スケジュール | Weekly Oshi Calendar</title>
 
-  <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-34F62VYWT7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-34F62VYWT7');
-</script>
-
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-34F62VYWT7');
-  window.onload = function(){
-    fetch("https://script.google.com/macros/s/AKfycbyC_efPMSDoPsrvDlXnVuglZkVR1FkbH3PMR617ZyKHiGOXnBuVxA54KdQYssA_QuisDg/exec")
-    .then(response => response.json())
-    .then(data => {
-      console.log("取得したデータ:", data);
-      const menbers = ["sui","sizu","siro","mohu","cha","uyu"]
-      const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
-      for(let menber = 0;menber < menbers.length;menber++){
-        for(let day = 0;day<7;day++){
-          console.log(menber,day,data[menber][days[day]])
-          let tergetCell = document.getElementById(menbers[menber]+days[day])
-          tergetCell.innerText = data[menber][days[day]]
-        }
-      }
-    })
-    .catch(error => {
-      console.error("エラー:", error);
-    });
-  }
-</script>
-
 </head>
 
   <style>
@@ -240,30 +205,30 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td class="oshi-row green">翠森アトリ</td>
-      <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td class="oshi-row blue">雫川なのか</td>
-      <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td class="oshi-row white">白熊汰べる</td>
-      <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td class="oshi-row aqua">もふやまそらら</td>
-      <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td class="oshi-row yellow">ちゃまこ</td>
-      <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td class="oshi-row red">卯夢月めお</td>
-      <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-    </tr>
+<tr>
+  <td class="oshi-row green">翠森アトリ</td>
+  <td id="suiMon"></td><td id="suiTue"></td><td id="suiWed"></td><td id="suiThu"></td><td id="suiFri"></td><td id="suiSat"></td><td id="suiSun"></td>
+</tr>
+<tr>
+  <td class="oshi-row blue">雫川なのか</td>
+  <td id="sizuMon"></td><td id="sizuTue"></td><td id="sizuWed"></td><td id="sizuThu"></td><td id="sizuFri"></td><td id="sizuSat"></td><td id="sizuSun"></td>
+</tr>
+<tr>
+  <td class="oshi-row white">白熊汰べる</td>
+  <td id="siroMon"></td><td id="siroTue"></td><td id="siroWed"></td><td id="siroThu"></td><td id="siroFri"></td><td id="siroSat"></td><td id="siroSun"></td>
+</tr>
+<tr>
+  <td class="oshi-row aqua">もふやまそらら</td>
+  <td id="mohuMon"></td><td id="mohuTue"></td><td id="mohuWed"></td><td id="mohuThu"></td><td id="mohuFri"></td><td id="mohuSat"></td><td id="mohuSun"></td>
+</tr>
+<tr>
+  <td class="oshi-row yellow">ちゃまこ</td>
+  <td id="chaMon"></td><td id="chaTue"></td><td id="chaWed"></td><td id="chaThu"></td><td id="chaFri"></td><td id="chaSat"></td><td id="chaSun"></td>
+</tr>
+<tr>
+  <td class="oshi-row red">卯夢月めお</td>
+  <td id="uyuMon"></td><td id="uyuTue"></td><td id="uyuWed"></td><td id="uyuThu"></td><td id="uyuFri"></td><td id="uyuSat"></td><td id="uyuSun"></td>
+</tr>
   </tbody>
 </table>
 
@@ -350,6 +315,31 @@ function parseContent(content) {
   }
   return content;
 }
+</script>
+
+<!-- そのあとに window.onload の fetch 処理 -->
+<script>
+  window.onload = function(){
+    fetch("https://script.google.com/macros/s/AKfycbyC_efPMSDoPsrvDlXnVuglZkVR1FkbH3PMR617ZyKHiGOXnBuVxA54KdQYssA_QuisDg/exec")
+    .then(response => response.json())
+    .then(data => {
+      console.log("取得したデータ:", data);
+      const members = ["sui","sizu","siro","mohu","cha","uyu"];
+      const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+      for(let menber = 0; menber < members.length; menber++){
+        for(let day = 0; day < 7; day++){
+          const cellId = members[menber] + days[day];
+          const targetCell = document.getElementById(cellId);
+          if (targetCell) {
+            targetCell.innerHTML = parseContent(data[menber][days[day]] ?? "");
+          }
+        }
+      }
+    })
+    .catch(error => {
+      console.error("エラー:", error);
+    });
+  }
 </script>
   </div>
 </body>
