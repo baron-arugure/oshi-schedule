@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:title" content="5期生スケジュール | Weekly 5th Calendar">
+<meta property="og:description" content="ハコネクト 5期生たちの今週の配信予定を確認できます！">
+<meta name="twitter:card" content="summary_large_image">
   <title>5期生スケジュール | Weekly 5th Calendar</title>
-
-</head>
-
   <style>
     :root {
       --pink-light: #fff0f6;
@@ -14,6 +14,7 @@
       --pink-dark: #ff77aa;
       --font-main: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
     }
+
     body {
       margin: 0;
       padding: 0;
@@ -21,6 +22,39 @@
       background: linear-gradient(to bottom, #fff6f9, #ffeef5);
       color: #333;
     }
+
+    #loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(90deg, #ffeef5, #fff6fa);
+      z-index: 1000;
+      animation: pulseBg 2s infinite;
+      flex-direction: column;
+    }
+
+    .loader-message {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #d24074;
+      animation: runBounce 0.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseBg {
+      0%, 100% { background-color: #fff6fa; }
+      50% { background-color: #ffeef5; }
+    }
+
+    @keyframes runBounce {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-6px); }
+    }
+
     header {
       background: linear-gradient(45deg, var(--pink-dark), var(--pink-main));
       color: white;
@@ -28,23 +62,27 @@
       padding: 2rem 1rem;
       box-shadow: 0 4px 12px rgba(255, 119, 170, 0.3);
     }
+
     header h1 {
       margin: 0;
       font-size: 2.4rem;
       letter-spacing: 1px;
     }
+
     .container {
       max-width: 1100px;
       margin: 2rem auto;
       padding: 0 1rem;
       overflow-x: auto;
     }
+
     h2 {
       text-align: center;
       font-size: 1.4rem;
       color: #d24074;
       margin-bottom: 1rem;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -54,7 +92,9 @@
       backdrop-filter: blur(6px);
       box-shadow: 0 8px 24px rgba(255, 119, 170, 0.15);
       min-width: 720px;
+      margin-bottom: 2.5rem;
     }
+
     th, td {
       padding: 1.1em 0.6em;
       text-align: center;
@@ -62,6 +102,7 @@
       font-size: 1rem;
       transition: all 0.2s ease;
     }
+
     th {
       background: linear-gradient(45deg, #ffe6f0, #ffd8eb);
       color: #d24074;
@@ -72,6 +113,7 @@
       top: 0;
       z-index: 3;
     }
+
     th:first-child,
     td:first-child {
       position: sticky;
@@ -80,8 +122,8 @@
     }
 
     td:first-child:not(.oshi-row) {
-  background: #fff0f5;
-}
+      background: #fff0f5;
+    }
 
     td:not(.oshi-row):hover {
       background: #fff0f6;
@@ -90,25 +132,21 @@
       position: relative;
       box-shadow: 0 2px 6px rgba(255, 119, 170, 0.1);
     }
+
     .oshi-row {
       font-weight: bold;
       color: white;
     }
-    .green  { background: linear-gradient(90deg, #a8e063, #56ab2f); }
-    .blue   { background: linear-gradient(90deg, #56ccf2, #2f80ed); }
-    .aqua   { background: linear-gradient(90deg, #76e4f7, #00c9d4); }
+
+    .green { background: linear-gradient(90deg, #a8e063, #56ab2f); }
+    .blue { background: linear-gradient(90deg, #56ccf2, #2f80ed); }
+    .aqua { background: linear-gradient(90deg, #76e4f7, #00c9d4); }
     .yellow { background: linear-gradient(90deg, #fddb92, #fce473); color: #222; }
-    .red    { background: linear-gradient(90deg, #ff758c, #ff7eb3); }
-    .white  { background: #f7f7f7; color: #444; }
+    .red { background: linear-gradient(90deg, #ff758c, #ff7eb3); }
+    .white { background: #f7f7f7; color: #444; }
 
     .uncertain {
-      background: repeating-linear-gradient(
-        45deg,
-        #ffeef0,
-        #ffeef0 5px,
-        #fff7f9 5px,
-        #fff7f9 10px
-      );
+      background: repeating-linear-gradient(45deg, #ffeef0, #ffeef0 5px, #fff7f9 5px, #fff7f9 10px);
       font-style: italic;
       border: 1px dashed #ff99bb;
       border-radius: 8px;
@@ -124,6 +162,7 @@
       justify-content: center;
       margin-bottom: 2rem;
     }
+
     .link-button {
       display: inline-block;
       color: white;
@@ -136,27 +175,48 @@
       transition: all 0.2s ease-in-out;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    .link-button.green  { background: linear-gradient(90deg, #a8e063, #56ab2f); }
-    .link-button.blue   { background: linear-gradient(90deg, #56ccf2, #2f80ed); }
-    .link-button.white  { background: #f1f1f1; color: #444; }
-    .link-button.aqua   { background: linear-gradient(90deg, #76e4f7, #00c9d4); }
+
+    .link-button.green { background: linear-gradient(90deg, #a8e063, #56ab2f); }
+    .link-button.blue { background: linear-gradient(90deg, #56ccf2, #2f80ed); }
+    .link-button.white { background: #f1f1f1; color: #444; }
+    .link-button.aqua { background: linear-gradient(90deg, #76e4f7, #00c9d4); }
     .link-button.yellow { background: linear-gradient(90deg, #fddb92, #fce473); color: #222; }
-    .link-button.red    { background: linear-gradient(90deg, #ff758c, #ff7eb3); }
-    .link-button:hover  {
+    .link-button.red { background: linear-gradient(90deg, #ff758c, #ff7eb3); }
+
+    .link-button:hover {
       transform: translateY(-2px) scale(1.05);
       box-shadow: 0 6px 20px rgba(0,0,0,0.2);
     }
 
-    .twitter-section {
-      margin: 2rem 0;
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 4px 16px rgba(255,119,170,0.07);
-      padding: 2rem 0.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      gap: 2rem;
+    .tweet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .tweet-card {
+      background: #1a1a1a;
+      color: #ffffff;
+      border-radius: 1.5rem;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      padding: 1rem;
+      text-align: center;
+      font-weight: bold;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .tweet-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 10px 16px rgba(0,0,0,0.3);
+    }
+
+    .tweet-card a {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .tweet-card a:hover {
+      color: #1d9bf0;
     }
 
     footer {
@@ -166,46 +226,15 @@
       margin-top: 3rem;
       padding-bottom: 2rem;
     }
-
-    table {
-  margin-bottom: 2.5rem;
-}
-
-.tweet-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1rem;
-}
-
-.tweet-card {
-  background: #1a1a1a; /* 黒背景 */
-  color: #ffffff;       /* 本文白 */
-  border-radius: 1.5rem;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-  padding: 1rem;
-  text-align: center;
-  font-weight: bold;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.tweet-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 10px 16px rgba(0,0,0,0.3);
-}
-
-.tweet-card a {
-  color: #ffffff;         /* 白文字 */
-  text-decoration: underline;
-}
-
-.tweet-card a:hover {
-  color: #1d9bf0;         /* Xブルー */
-  text-decoration: underline;
-}
-
   </style>
 </head>
+
 <body>
+
+  <div id="loading">
+  <div class="loader-message">ちょっとまっててね！</div>
+</div>
+
   <header>
     <h1>🗓️ 5期生スケジュール | Weekly 5th Calendar</h1>
   </header>
@@ -316,51 +345,53 @@
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <script>
-function parseContent(content) {
-  if (!content) return "";
-  const rules = [
-    { word: "雑談", icon: "🗨️" },
-    { word: "歌", icon: "🎤" },
-    { word: "作業", icon: "🧪" },
-    { word: "コラボ", icon: "👥" },
-    { word: "ASMR", icon: "💤" },
-    { word: "未定", icon: "❓", class: "uncertain" },
-    { word: "ゲリラ", icon: "❓", class: "uncertain" },
-    { word: "マロ", icon: "🗨️" },
-    { word: "ゲーム", icon: "🎮" }
-  ];
-  const rule = rules.find(r => content.includes(r.word));
-  if (rule) {
-    const safe = content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    return `<span class="${rule.class || ''}">${rule.icon} ${safe}</span>`;
+  function parseContent(content) {
+    if (!content) return "";
+    const rules = [
+      { word: "雑談", icon: "🗨️" },
+      { word: "歌", icon: "🎤" },
+      { word: "作業", icon: "🧪" },
+      { word: "コラボ", icon: "👥" },
+      { word: "ASMR", icon: "💤" },
+      { word: "未定", icon: "❓", class: "uncertain" },
+      { word: "ゲリラ", icon: "❓", class: "uncertain" },
+      { word: "マロ", icon: "🗨️" },
+      { word: "ゲーム", icon: "🎮" }
+    ];
+    const rule = rules.find(r => content.includes(r.word));
+    if (rule) {
+      const safe = content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      return `<span class="${rule.class || ''}">${rule.icon} ${safe}</span>`;
+    }
+    return content;
   }
-  return content;
-}
-</script>
 
-<!-- そのあとに window.onload の fetch 処理 -->
-<script>
-  window.onload = function(){
+  window.addEventListener("DOMContentLoaded", () => {
+    const loading = document.getElementById("loading");
     fetch("https://script.google.com/macros/s/AKfycbyC_efPMSDoPsrvDlXnVuglZkVR1FkbH3PMR617ZyKHiGOXnBuVxA54KdQYssA_QuisDg/exec")
-    .then(response => response.json())
-    .then(data => {
-      console.log("取得したデータ:", data);
-      const members = ["sui","sizu","siro","mohu","cha","uyu"];
-      const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-      for(let menber = 0; menber < members.length; menber++){
-        for(let day = 0; day < 7; day++){
-          const cellId = members[menber] + days[day];
-          const targetCell = document.getElementById(cellId);
-          if (targetCell) {
-            targetCell.innerHTML = parseContent(data[menber][days[day]] ?? "");
+      .then(response => response.json())
+      .then(data => {
+        const members = ["sui","sizu","siro","mohu","cha","uyu"];
+        const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+        for (let m = 0; m < members.length; m++) {
+          for (let d = 0; d < days.length; d++) {
+            const cellId = members[m] + days[d];
+            const target = document.getElementById(cellId);
+            if (target) {
+              target.innerHTML = parseContent(data[m][days[d]] ?? "");
+            }
           }
         }
-      }
-    })
-    .catch(error => {
-      console.error("エラー:", error);
-    });
-  }
+      })
+      .catch(error => {
+        console.error("データ取得エラー:", error);
+        loading.innerHTML = `<div class="loader-message">読み込み失敗なの……😢</div>`;
+      })
+      .finally(() => {
+        loading.style.opacity = "0";
+        setTimeout(() => loading.style.display = "none", 400);
+      });
+  });
 </script>
   </div>
 </body>
