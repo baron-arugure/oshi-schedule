@@ -378,10 +378,14 @@
 
 <script>
   //時間を含むかどうかの正規表現
-  function isTimeInTitle(text){
-    const TimeRule = /.*[0,1,2,3,4,5,6,7,8,9]+:[0,1,2,3,4,5,6,7,8,9]{2}?.*/
-    return !!text.match(TimeRule)
+  function getTimeInTitle(text){
+    const TimeRule = /[0,1,2,3,4,5,6,7,8,9]+:[0,1,2,3,4,5,6,7,8,9]{2}?/
+    if(text.match(TimeRule)){
+      return text.match(TimeRule)[0]
+    }
+    return null
   }
+  //アイコンつけと長い場合は...で省略
   function parseContent(content) {
     if (!content) return "";
     const rules = [
@@ -393,10 +397,29 @@
       { word: "マロ", icon: "🗨️" },
       { word: "ゲーム", icon: "🎮" }
     ];
-    const rule = rules.find(r => content.includes(r.word));
-    return (rule?.icon || "") + content;
+    let icons = ""
+    rules.forEach((rule) =>{
+      if(content.includes(rule.word)){
+        icons += rule.icon
+      }
+    })
+    if(icons === ""){
+      icons = "❓" 
+    }
+    if(getTimeInTitle(content)){
+      return icons + getTimeInTitle(content);
+    }
+    return icons + textFormater(content);
   }
-
+  //...省略するための関数
+  function textFormater(text){
+    const MAX_LENGTH = 4
+    if(text.length < MAX_LENGTH){
+      return text
+    }
+    return text.slice(0,MAX_LENGTH-1) + "..."
+  }
+  //読み込んだときにAPIを走らせてシートから情報を持ってくる
   window.addEventListener("DOMContentLoaded", () => {
     const loading = document.getElementById("loading");
     if(window.outerWidth <1100){
@@ -405,6 +428,8 @@
     fetch("https://script.google.com/macros/s/AKfycbyC_efPMSDoPsrvDlXnVuglZkVR1FkbH3PMR617ZyKHiGOXnBuVxA54KdQYssA_QuisDg/exec")
       .then(response => response.json())
       .then(data => {
+        streamPlanData = data;
+        //文字列の組み合わせでIdを作成し、該当の内容を入れ込む
         const members = ["sui","sizu","siro","mohu","cha","uyu"];
         const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
         for (let m = 0; m < members.length; m++) {
@@ -414,15 +439,21 @@
             if (target) {
               //内容がなければinnerHTMLに何も入れたくない
               if(data[m][days[d]]){
+                data[m][days[d]] = data[m][days[d]].replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 //時刻表現がないとき
-                if(!isTimeInTitle(data[m][days[d]] ?? "")){
+                if(!getTimeInTitle(data[m][days[d]] || "")){
                   document.getElementById(cellId).classList.add("uncertain");
-                  target.innerHTML = "❓" + data[m][days[d]];
                 }
-                else{
-                  target.innerHTML = parseContent(data[m][days[d]] ?? "");
-                }
+                target.innerHTML = parseContent(data[m][days[d]] ?? "");
               }
+              //マウスホバー時に詳細を表示
+              target.addEventListener('mouseover', () => {
+                target.innerHTML = data[m][days[d]];
+              }, false);
+              //離したらもとに戻す
+              target.addEventListener('mouseleave', () => {
+                target.innerHTML = parseContent(data[m][days[d]] ?? "");
+              }, false);
             }
           }
         }
@@ -431,6 +462,7 @@
         console.error("データ取得エラー:", error);
         loading.innerHTML = `<div class="loader-message">読み込み失敗なの……😢</div>`;
       })
+      //ちょっと待ってねを透明にし、しばらくたったら削除
       .finally(() => {
         loading.style.opacity = "0";
         setTimeout(() => loading.style.display = "none", 400);
