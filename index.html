@@ -287,28 +287,29 @@
   <tbody>
 <tr>
   <td class="oshi-row green">翠森アトリ</td>
-  <td id="suiMon"></td><td id="suiTue"></td><td id="suiWed"></td><td id="suiThu"></td><td id="suiFri"></td><td id="suiSat"></td><td id="suiSun"></td>
+  <td><span id="suiMon"></span></td><td><span id="suiTue"></span></td><td><span id="suiWed"></span></td><td><span id="suiThu"></span></td><td><span id="suiFri"></span></td><td><span id="suiSat"></span></td><td><span id="suiSun"></span></td>
 </tr>
 <tr>
   <td class="oshi-row blue">雫川なのか</td>
-  <td id="sizuMon"></td><td id="sizuTue"></td><td id="sizuWed"></td><td id="sizuThu"></td><td id="sizuFri"></td><td id="sizuSat"></td><td id="sizuSun"></td>
+  <td><span id="sizuMon"></span></td><td><span id="sizuTue"></span></td><td><span id="sizuWed"></span></td><td><span id="sizuThu"></span></td><td><span id="sizuFri"></span></td><td><span id="sizuSat"></span></td><td><span id="sizuSun"></span></td>
 </tr>
 <tr>
   <td class="oshi-row white">白熊汰べる</td>
-  <td id="siroMon"></td><td id="siroTue"></td><td id="siroWed"></td><td id="siroThu"></td><td id="siroFri"></td><td id="siroSat"></td><td id="siroSun"></td>
+  <td><span id="siroMon"></span></td><td><span id="siroTue"></span></td><td><span id="siroWed"></span></td><td><span id="siroThu"></span></td><td><span id="siroFri"></span></td><td><span id="siroSat"></span></td><td><span id="siroSun"></span></td>
 </tr>
 <tr>
   <td class="oshi-row aqua">もふやまそらら</td>
-  <td id="mohuMon"></td><td id="mohuTue"></td><td id="mohuWed"></td><td id="mohuThu"></td><td id="mohuFri"></td><td id="mohuSat"></td><td id="mohuSun"></td>
+  <td><span id="mohuMon"></span></td><td><span id="mohuTue"></span></td><td><span id="mohuWed"></span></td><td><span id="mohuThu"></span></td><td><span id="mohuFri"></span></td><td><span id="mohuSat"></span></td><td><span id="mohuSun"></span></td>
 </tr>
 <tr>
   <td class="oshi-row yellow">ちゃまこ</td>
-  <td id="chaMon"></td><td id="chaTue"></td><td id="chaWed"></td><td id="chaThu"></td><td id="chaFri"></td><td id="chaSat"></td><td id="chaSun"></td>
+  <td><span id="chaMon"></span></td><td><span id="chaTue"></span></td><td><span id="chaWed"></span></td><td><span id="chaThu"></span></td><td><span id="chaFri"></span></td><td><span id="chaSat"></span></td><td><span id="chaSun"></span></td>
 </tr>
 <tr>
   <td class="oshi-row red">卯夢月めお</td>
-  <td id="uyuMon"></td><td id="uyuTue"></td><td id="uyuWed"></td><td id="uyuThu"></td><td id="uyuFri"></td><td id="uyuSat"></td><td id="uyuSun"></td>
+  <td><span id="uyuMon"></span></td><td><span id="uyuTue"></span></td><td><span id="uyuWed"></span></td><td><span id="uyuThu"></span></td><td><span id="uyuFri"></span></td><td><span id="uyuSat"></span></td><td><span id="uyuSun"></span></td>
 </tr>
+
   </tbody>
   
 </table>
@@ -376,6 +377,15 @@
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <script>
+  //時間を含むかどうかの正規表現
+  function getTimeInTitle(text){
+    const TimeRule = /[0,1,2,3,4,5,6,7,8,9]+:[0,1,2,3,4,5,6,7,8,9]{2}?/
+    if(text.match(TimeRule)){
+      return text.match(TimeRule)[0]
+    }
+    return null
+  }
+  //アイコンつけと長い場合は...で省略
   function parseContent(content) {
     if (!content) return "";
     const rules = [
@@ -384,19 +394,32 @@
       { word: "作業", icon: "🧪" },
       { word: "コラボ", icon: "👥" },
       { word: "ASMR", icon: "💤" },
-      { word: "未定", icon: "❓", class: "uncertain" },
-      { word: "ゲリラ", icon: "❓", class: "uncertain" },
       { word: "マロ", icon: "🗨️" },
       { word: "ゲーム", icon: "🎮" }
     ];
-    const rule = rules.find(r => content.includes(r.word));
-    if (rule) {
-      const safe = content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-      return `<span class="${rule.class || ''}">${rule.icon} ${safe}</span>`;
+    let icons = ""
+    rules.forEach((rule) =>{
+      if(content.includes(rule.word)){
+        icons += rule.icon
+      }
+    })
+    if(icons === ""){
+      icons = "❓" 
     }
-    return content;
+    if(getTimeInTitle(content)){
+      return icons + getTimeInTitle(content);
+    }
+    return icons + textFormater(content);
   }
-
+  //...省略するための関数
+  function textFormater(text){
+    const MAX_LENGTH = 4
+    if(text.length < MAX_LENGTH){
+      return text
+    }
+    return text.slice(0,MAX_LENGTH-1) + "..."
+  }
+  //読み込んだときにAPIを走らせてシートから情報を持ってくる
   window.addEventListener("DOMContentLoaded", () => {
     const loading = document.getElementById("loading");
     if(window.outerWidth <1100){
@@ -405,6 +428,8 @@
     fetch("https://script.google.com/macros/s/AKfycbyC_efPMSDoPsrvDlXnVuglZkVR1FkbH3PMR617ZyKHiGOXnBuVxA54KdQYssA_QuisDg/exec")
       .then(response => response.json())
       .then(data => {
+        streamPlanData = data;
+        //文字列の組み合わせでIdを作成し、該当の内容を入れ込む
         const members = ["sui","sizu","siro","mohu","cha","uyu"];
         const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
         for (let m = 0; m < members.length; m++) {
@@ -412,7 +437,23 @@
             const cellId = members[m] + days[d];
             const target = document.getElementById(cellId);
             if (target) {
-              target.innerHTML = parseContent(data[m][days[d]] ?? "");
+              //内容がなければinnerHTMLに何も入れたくない
+              if(data[m][days[d]]){
+                data[m][days[d]] = data[m][days[d]].replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                //時刻表現がないとき
+                if(!getTimeInTitle(data[m][days[d]] || "")){
+                  document.getElementById(cellId).classList.add("uncertain");
+                }
+                target.innerHTML = parseContent(data[m][days[d]] ?? "");
+              }
+              //マウスホバー時に詳細を表示
+              target.addEventListener('mouseover', () => {
+                target.innerHTML = data[m][days[d]];
+              }, false);
+              //離したらもとに戻す
+              target.addEventListener('mouseleave', () => {
+                target.innerHTML = parseContent(data[m][days[d]] ?? "");
+              }, false);
             }
           }
         }
@@ -421,6 +462,7 @@
         console.error("データ取得エラー:", error);
         loading.innerHTML = `<div class="loader-message">読み込み失敗なの……😢</div>`;
       })
+      //ちょっと待ってねを透明にし、しばらくたったら削除
       .finally(() => {
         loading.style.opacity = "0";
         setTimeout(() => loading.style.display = "none", 400);
